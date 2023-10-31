@@ -1,0 +1,29 @@
+nav {
+    padding: 0;
+    background: red;
+    height: fit-content;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0 0 20px;
+}
+
+nav ul li a {
+    display: block;
+    text-decoration: none;
+    background: var(--background-color);
+    padding: .6rem 1.2rem;
+    border-radius: 8px;
+}
+
+nav ul li a.active {
+    text-decoration: none;
+    background: rgb(74, 81, 82);
+    padding: .6rem 1.2rem;
+    border-radius: 8px;
+}
