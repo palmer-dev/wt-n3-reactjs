@@ -1,6 +1,5 @@
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import Loading from "../components/Loading/Loading.tsx";
-import {Post} from "../models/Post.ts";
 import {createFakePosts} from "../services/createFakePosts.ts";
 import Button from "../components/Button/Button.tsx";
 import {RowContainer} from "../components/Container/RowContainer.ts";
@@ -8,29 +7,15 @@ import {TextField} from "../components/TextField/TextField.tsx";
 import {ColumnContainer} from "../components/Container/ColumnContainer.ts";
 import PostItem from "../components/PostItem/PostItem.tsx";
 import {escapeRegExp} from "../services/escapeRegExp.ts";
+import {usePosts} from "../hooks/usePosts.ts";
 
 function PostListing() {
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        setLoading(true);
-        setTimeout(() => {
-            setPosts(createFakePosts(5));
-            setLoading(false)
-        }, 1000)
-    }, []);
-
+    const {posts, loading, deletePost, setPosts} = usePosts();
+    const [filter, setFilter] = useState("");
 
     const createPost = () => {
         setPosts((prev) => [...prev, ...createFakePosts(1)])
     }
-
-    const deletePost = (id: string) => {
-        setPosts((prev) => prev.filter((post: Post) => post.id !== id))
-    }
-
-    const [filter, setFilter] = useState("");
 
     const filtered = useMemo(() => {
                 if (filter === "") return posts

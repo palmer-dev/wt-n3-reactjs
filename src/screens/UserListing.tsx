@@ -1,36 +1,21 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import Button from "../components/Button/Button.tsx";
 import {TextField} from "../components/TextField/TextField.tsx";
 import ListItem from "../components/ListItem/ListItem.tsx";
 import {RowContainer} from "../components/Container/RowContainer.ts";
 import {ColumnContainer} from "../components/Container/ColumnContainer.ts";
-import {User} from "../models/User.ts";
-import {createFakeUser} from "../services/createFakeUser.ts";
 import Loading from "../components/Loading/Loading.tsx";
 import {escapeRegExp} from "../services/escapeRegExp.ts";
+import {useUsers} from "../hooks/useUsers.ts";
+import {createFakeUser} from "../services/createFakeUser.ts";
 
 function UserListing() {
-    const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        setLoading(true);
-        setTimeout(() => {
-            setUsers(createFakeUser(5));
-            setLoading(false)
-        }, 5000)
-    }, []);
-
+    const {users, loading, setUsers, deleteUser} = useUsers();
+    const [filter, setFilter] = useState("");
 
     const createUser = () => {
         setUsers((prev) => [...prev, ...createFakeUser(1)])
     }
-
-    const deleteUser = (id: number) => {
-        setUsers((prev) => prev.filter((user: User) => user.id !== id))
-    }
-
-    const [filter, setFilter] = useState("");
 
     const filtered = useMemo(() => {
                 if (filter === "") return users
